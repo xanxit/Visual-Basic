@@ -1,0 +1,81 @@
+Sub Mail_small_Text_Outlook()
+    Dim OutApp As Object
+    Dim OutMail As Object
+    Dim Application_Name As String
+    Dim Application_URL As String
+    Dim DateTime_Value As String
+    Dim Date_Value As String
+    Dim DateP5_Value As String
+    Dim Fortify_URL As String
+    Dim To_Value As String
+    Dim CC_Value As String
+    Dim Subject_Value As String
+    Dim Body_Value As String
+    Dim Subject_Text As String
+    Dim Body_Text As String
+    Dim Subject_Mod As String
+    Dim Body_Mod As String
+
+ 
+
+    Set OutApp = CreateObject("Outlook.Application")
+    Set OutMail = OutApp.CreateItem(0)
+    
+    ' Get values from sheet
+    Application_Name = Sheets("Sheet2").Range("B2").Value
+    Application_URL = Sheets("Sheet2").Range("B3").Value
+    DateTime_Value = Sheets("Sheet2").Range("B5").Value
+    Date_Value = Sheets("Sheet2").Range("B6").Value
+    DateP5_Value = Sheets("Sheet2").Range("B7").Value
+    Fortify_URL = Sheets("Sheet2").Range("B8").Value
+    To_Value = Sheets("Sheet2").Range("B4").Value
+    CC_Value = Sheets("Sheet2").Range("B11").Value
+    Subject_Value = Sheets("Sheet2").Range("B10").Value
+    Body_Value = Sheets("Sheet2").Range("B12").Value
+    Ocassion = Sheets("Sheet2").Range("B13").Value
+    Discount = Sheets("Sheet2").Range("B14").Value
+    Reason = Sheets("Sheet2").Range("B15").Value
+    Update = Sheets("Sheet2").Range("B16").Value
+    Date = Sheets("Sheet2").Range("B17").Value
+    ' Put Subject and body in isolated variables
+    Subject_Text = Subject_Value
+    Body_Text = Body_Value
+    
+    ' Replace Tags in Subject
+    Subject_Text = Replace(Subject_Text, "<<First Name>>", Application_Name)
+    Subject_Text = Replace(Subject_Text, "<<Date>>", Date_Value)
+    Subject_Text = Replace(Subject_Text, "<<Project Name>>", Application_URL)
+    Subject_Mod = Subject_Text
+    
+    ' Replace Tags in Body
+    Body_Text = Replace(Body_Text, "<<First Name>>", Application_Name)
+    Body_Text = Replace(Body_Text, "<<Project Name>>", Application_URL)
+    Body_Text = Replace(Body_Text, "<<contact number>>", Fortify_URL)
+    Body_Text = Replace(Body_Text, "<<Sender Full Name>>", DateP5_Value)
+    Body_Text = Replace(Body_Text, "<<amount>>", DateTime_Value)
+    Body_Text = Replace(Body_Text, "<<duration of project>>", Date_Value)
+    Body_Text = Replace(Body_Text, "<<occasion>>", Ocassion)
+    Body_Text = Replace(Body_Text, "<<the reason>>", Reason)
+    Body_Text = Replace(Body_Text, "<<percentage>>", Discount)
+    Body_Text = Replace(Body_Text, "<<Update>>", Update)
+    Body_Text = Replace(Body_Text, "DD Month, YYYY", Date)
+    Body_Mod = Body_Text
+
+ 
+
+    On Error Resume Next
+    With OutMail
+        .To = To_Value
+        .CC = CC_Value
+        .BCC = ""
+        .Subject = Subject_Mod
+        .Body = Body_Mod
+        'You can add a file like this
+        '.Attachments.Add ("C:\test.txt")
+        .Display   'or use .Display .Send
+    End With
+    On Error GoTo 0
+    
+    Set OutMail = Nothing
+    Set OutApp = Nothing
+End Sub
