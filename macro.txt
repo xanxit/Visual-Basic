@@ -36,7 +36,7 @@ Sub Mail_small_Text_Outlook()
     Discount = Sheets("Sheet2").Range("B14").Value
     Reason = Sheets("Sheet2").Range("B15").Value
     Update = Sheets("Sheet2").Range("B16").Value
-    Date = Sheets("Sheet2").Range("B17").Value
+    Date = Sheets("Sheet2").Range("B17").Value 'date will only work if the cell is formatted to date type!
     ' Put Subject and body in isolated variables
     Subject_Text = Subject_Value
     Body_Text = Body_Value
